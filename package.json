@@ -1,0 +1,41 @@
+{
+  "name": "crypto_app",
+  "version": "1.0.0",
+  "description": "API BAckend for a crypto app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.16.2",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "joi": "^17.10.2",
+    "jsonwebtoken": "^9.0.0",
+    "nodemailer": "^6.9.5",
+    "otp-generator": "^4.0.1",
+    "short-uuid": "^4.2.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "winston": "^3.8.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22",
+    "prisma": "^4.12.0"
+  },
+  "prisma": {
+    "schema": "./prisma/schema.prisma"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dearie-de-cybek/Crypto_App_API.git"
+  },
+  "author": "Dearie-de-cybek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dearie-de-cybek/Crypto_App_API/issues"
+  },
+  "homepage": "https://github.com/Dearie-de-cybek/Crypto_App_API#readme"
+}
