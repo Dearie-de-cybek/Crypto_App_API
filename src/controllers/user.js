@@ -56,7 +56,7 @@ class UserController extends BaseController {
     const { new_password, otp_code } = payload;
 
     // verify otp_code
-    const otpCodeInvite = await prisma.organizationInvite.findFirst({
+    const otpCodeInvite = await prisma.userInvite.findFirst({
       where: {
         token: otp_code,
         ttl: {
@@ -136,7 +136,7 @@ class UserController extends BaseController {
     Note: This OTP is valid for 15 minutes only.
     `;
 
-    await prisma.organizationInvite.create({
+    await prisma.userInvite.create({
       data: {
         email,
         token: otpCode,
