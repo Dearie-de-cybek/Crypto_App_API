@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const BaseController = require("./base");
 const {
-  saveBankInfoShema,
+  userInvite,
   passwordResetSchema,
   ForgotPasswordSchema,
 } = require("../helper/validate");
@@ -156,6 +156,74 @@ class UserController extends BaseController {
       "Forgot password OTP sent",
       201,
       process.env.NODE_ENV !== "production" && otpCode
+    );
+  }
+
+  async createUserInvite(req, res) {
+    const { error } = userInvite.validate(req.body);
+
+    if (error) {
+      return this.error(res, error.message, 400);
+    }
+    const { email } = req.body;
+    const { id } = req.user;
+
+    const emailExists = await prisma.user.findFirst({
+      where: { email },
+    });
+    if (emailExists !== null) {
+      return this.error(res, "User already exists", 400);
+    }
+    const otp = otpGenerator.generate(6, {
+      upperCaseAlphabets: false,
+      specialChars: false,
+      lowerCaseAlphabets: false,
+    });
+
+    // check if token exists
+    const otpExists = await prisma.user.findFirst({
+      where: { email },
+    });
+
+    if (otpExists !== null) {
+      // update otp
+      await prisma.user.update({
+        where: {
+          id: otpExists?.id,
+        },
+        data: { token: otp, ttl: new Date() },
+      });
+    } else {
+      // store token in database
+      await prisma.organizationInvite.create({
+        data: {
+          id: genRandomIntId(),
+          email,
+          token: otp,
+          ttl: new Date(),
+          created_at: new Date(),
+          id: id,
+        },
+      });
+    }
+
+    const subject = "Join Crypto App";
+    const body = `
+    <h1>OTP Code<h1/>
+    
+    <p>You've created an account </p>
+
+    <p>Use the OTP below to verify the account:</p>
+    <h1>${otp}</h1>.
+    `;
+
+    // Send email using helper function
+    await sendEmail({ to: email, subject, text: body });
+    return this.success(
+      res,
+      "success",
+      200,
+      process.env.NODE_ENV !== "production" && otp
     );
   }
 }

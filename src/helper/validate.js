@@ -13,7 +13,9 @@ const LoginSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
-
+const userInvite = Joi.object({
+    email: Joi.string().required(),
+  });
 
 const passwordResetSchema = Joi.object({
   new_password: Joi.string().min(6).required(),
@@ -27,6 +29,7 @@ const ForgotPasswordSchema = Joi.object({
 module.exports = {
   UserSignupSchema,
   LoginSchema,
+  userInvite,
   passwordResetSchema,
   ForgotPasswordSchema,
 };

@@ -22,6 +22,8 @@ model User {
     gender               String?   @db.VarChar(10) // Assuming gender is a string
     location             String?   @db.VarChar(255)
     nin                  String?   @unique @db.VarChar(20) // Assuming NIN is a string
+    token      String
+    ttl        DateTime @default(now()) @map(name: "ttl") @db.DateTime()
     security_pin         String?   @db.VarChar(6) // Assuming security pin is a 6-digit string
     updated_at           DateTime? @default(now()) @map(name: "updated_at")
     created_at           DateTime? @default(now()) @map(name: "created_at")
