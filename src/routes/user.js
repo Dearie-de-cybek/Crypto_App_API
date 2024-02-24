@@ -23,33 +23,7 @@ class UserRoute {
       )
     );
 
-    // Endpoint Route to get all users
-    this.router.get(
-      `${this.path}/all`,
-      isAuthenticated,
-      useCatchErrors(this.userController.allUsers.bind(this.userController))
-    );
-    // Search User
-    this.router.get(
-      `${this.path}/search/:query`,
-      isAuthenticated,
-      useCatchErrors(
-        this.userController.searchUserByNameOrEmail.bind(this.userController)
-      )
-    );
-
-    // redeem user lunch
-    this.router.post(
-      `${this.path}/redeem`,
-      isAuthenticated,
-      useCatchErrors(this.userController.redeemLunch.bind(this.userController))
-    );
-
-    this.router.patch(
-      `${this.path}/bank`,
-      isAuthenticated,
-      useCatchErrors(this.userController.saveBankInfo.bind(this.userController))
-    );
+    
 
     this.router.post(
       `${this.path}/reset-password`,
