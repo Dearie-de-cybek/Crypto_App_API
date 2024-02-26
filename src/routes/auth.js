@@ -1,8 +1,7 @@
 const express = require("express");
-const AuthController = require("../controller/auth");
+const AuthController = require("../controllers/auth");
 const useCatchErrors = require("../error/catchErrors");
 const UserController = require("../controllers/user");
-const { verifyOTP } = require("../middlewares/auth");
 
 class AuthRoute {
   router = express.Router();
@@ -27,7 +26,6 @@ class AuthRoute {
     // test endpoint
     this.router.post(
       `${this.path}/user/signup`,
-      verifyOTP,
       useCatchErrors(this.authController.userSignup.bind(this.authController))
     );
   }

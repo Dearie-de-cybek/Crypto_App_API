@@ -25,6 +25,14 @@
     "nodemon": "^2.0.22",
     "prisma": "^4.12.0"
   },
+  "scripts": {
+    "test": "",
+    "start": " node ./src/server.js",
+    "dev": "nodemon ./src/server.js",
+    "prismaMigrate": "prisma migrate dev",
+    "prismaGenerate": "prisma generate dev",
+    "dbPush": "prisma db push"
+  },
   "prisma": {
     "schema": "./prisma/schema.prisma"
   },
