@@ -2,6 +2,7 @@ const express = require("express");
 const AuthController = require("../controllers/auth");
 const useCatchErrors = require("../error/catchErrors");
 const UserController = require("../controllers/user");
+const { isAuthenticated } = require("../middlewares/auth");
 
 class AuthRoute {
   router = express.Router();
@@ -32,6 +33,12 @@ class AuthRoute {
     this.router.post(
       `${this.path}/login`,
       useCatchErrors(this.authController.login.bind(this.authController))
+    );
+
+    this.router.post(
+      `${this.path}/user/update`,
+      isAuthenticated,
+      useCatchErrors(this.authController.updateUserDetails.bind(this.authController))
     );
   }
 }

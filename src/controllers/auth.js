@@ -8,6 +8,7 @@ const {
   UserSignupSchema,
   LoginSchema,
   passwordResetSchema,
+  UpdateUserSchema
 } = require("../helper/validate");
 const BaseController = require("./base");
 
@@ -78,14 +79,14 @@ class AuthController extends BaseController {
     const userExists = await prisma.user.findFirst({ where: { email } });
 
     if (userExists === null) {
-      return this.error(res, "Account notfound.", 400);
+      return this.error(res, "Account not found.", 400);
     }
 
     // compare password
     if (
       passwordManager.comparePwd(password, userExists.password_hash) === false
     ) {
-      this.error(res, "Credentials Missmatch", 400);
+      this.error(res, "Credentials Miss-match", 400);
       return;
     }
 
@@ -112,6 +113,42 @@ class AuthController extends BaseController {
       refresh_token: refreshToken,
       id,
       name: `${email}`,
+    });
+  }
+
+  async updateUserDetails(req, res) {
+    const userId = req.user.id; // Assuming you have middleware to extract user ID from the request
+
+    const payload = req.body;
+    const { error } = UpdateUserSchema.validate(payload);
+    if (error) {
+      return this.error(res, error.message, 400);
+    }
+
+    const existingUser = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!existingUser) {
+      return this.error(res, "User not found", 404);
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        first_name: payload.first_name || existingUser.first_name,
+        last_name: payload.last_name || existingUser.last_name,
+        email: payload.email || existingUser.email,
+        location: payload.location || existingUser.location,
+        birthday: payload.birthday || existingUser.birthday,
+        gender: payload.gender || existingUser.gender,
+        profile_pic: payload.profile_pic || existingUser.profile_pic,
+        updated_at: new Date(),
+      },
+    });
+
+    this.success(res, "User details updated successfully", 200, {
+      updatedUser,
     });
   }
 }

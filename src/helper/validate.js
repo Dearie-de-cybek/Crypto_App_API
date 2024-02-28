@@ -26,10 +26,21 @@ const ForgotPasswordSchema = Joi.object({
   email: Joi.string().required(),
 });
 
+const UpdateUserSchema = Joi.object({
+  first_name: Joi.string(),
+  last_name: Joi.string(),
+  email: Joi.string(),
+  location: Joi.string(),
+  birthday: Joi.date(),
+  gender: Joi.string(),
+  profile_pic: Joi.string(),
+});
+
 module.exports = {
   UserSignupSchema,
   LoginSchema,
   userInvite,
   passwordResetSchema,
   ForgotPasswordSchema,
+  UpdateUserSchema
 };
