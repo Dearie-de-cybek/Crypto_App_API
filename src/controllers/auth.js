@@ -34,14 +34,21 @@ class AuthController extends BaseController {
 
     const profilePic = `https://api.dicebear.com/7.x/micah/svg?seed=${email}`;
     const pwdHash = passwordManager.hash(password);
+    const user_id = genRandomIntId();
+
+    const refreshToken = JwtTokenManager.genRefreshToken({
+      user_id
+    })
     
 
     const createUser = prisma.user.create({
       data: {
+        id: user_id,
         profile_pic: profilePic,
         security_pin,
         password_hash: pwdHash,
         email,
+        refresh_token: refreshToken,
         created_at: new Date(),
         updated_at: new Date(),
       },
