@@ -36,7 +36,7 @@ class AuthRoute {
     );
 
     this.router.post(
-      `${this.path}/user/update`,
+      `${this.path}/user/update/:id`,
       isAuthenticated,
       useCatchErrors(this.authController.updateUserDetails.bind(this.authController))
     );
