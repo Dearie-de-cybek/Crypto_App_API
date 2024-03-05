@@ -31,7 +31,8 @@
     "dev": "nodemon ./src/server.js",
     "prismaMigrate": "prisma migrate dev",
     "prismaGenerate": "prisma generate dev",
-    "dbPush": "prisma db push"
+    "dbPush": "prisma db push",
+    "vercel-build": "echo hello"
   },
   "prisma": {
     "schema": "./prisma/schema.prisma"
